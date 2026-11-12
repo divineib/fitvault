@@ -70,7 +70,7 @@ acceptance criteria:
 ## us05: food search
 
 - priority: high
-- points: 5 (to be confirmed by the usda api spike)
+- points: 5 (confirmed by the usda api spike, see docs/spike-usda-api.md)
 - sprint: sprint 2
 
 as a user, i want to search for a food and pull its nutrition info so that i don't have to type the numbers in myself.
