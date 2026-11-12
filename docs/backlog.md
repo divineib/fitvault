@@ -289,17 +289,18 @@ added after the sprint 1 self-test (findings 5 to 10).
 
 ---
 
-## us19: log cardio and stretching
+## us19: log cardio, stretching, and set times
 
 - priority: medium
 - points: 3
 - sprint: sprint 3
 
-as a user, i want to log cardio and stretching by time, not just sets and reps, so that my whole workout fits in one log.
+as a user, i want to log cardio and stretching by time, and how long my lifting sets take, so that my whole workout fits in one log.
 
 acceptance criteria:
-- [ ] an exercise can be logged by time (minutes) instead of reps and weight
+- [ ] an exercise can be logged by time (for example a 30-minute incline walk) instead of reps and weight
 - [ ] cardio like an incline walk can also save speed and incline
+- [ ] a lifting set can optionally save how long it took, as minutes and seconds (for example 2:39 for a squat set or 1:37 for a dumbbell set)
 - [ ] timed exercises show in history next to lifting exercises in the same workout
 
 added after the sprint 1 self-test: a real routine with stretching and an incline walk could only be logged as "1 rep" (finding 11).
