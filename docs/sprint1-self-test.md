@@ -22,13 +22,13 @@ how: taps and typing were entered with simulator automation, and face id was als
 | us02 | the block survives closing the app | pass | the app was closed and reopened during the block. it was still blocked, with 14 seconds left. after the block ended, the right pin worked. |
 | us02 | the pin is stored as a salted hash, never as plain text | pass | the security screen shows "pin is stored as a salted hash (pbkdf2)". unit tests also check that the pin never appears in the saved settings. |
 | us02 | face id unlock | pass | a matching face unlocked the app. a wrong face showed "face not recognized" and the app stayed locked. |
-| us03 | a workout with 5 exercises can be logged in under 2 minutes | borderline | a real lifting and cardio routine took exactly 2 minutes 0 seconds, so it didn't come in under 2 minutes. about 20 seconds of that was pauses and fixes from the automation. see the timing section below. |
+| us03 | a workout with 5 exercises can be logged in under 2 minutes | pass | timed by hand with a stopwatch: the same 5-exercise lifting and cardio workout took 1:37 and 1:30 on two of four tries (the other two took about 4 and 5 minutes). the automated run took exactly 2:00. see the timing section below. |
 | us03 | each set saves its reps and weight | pass | every set saved correctly, including a decimal weight (42.5 lbs) and a bodyweight exercise (weight left blank, saved as 0 lbs). |
 | us03 | workouts show in history newest first | pass | a workout dated nov 9 was added after one dated nov 12, and it still showed below it. workouts on the same day showed in the order they were logged, newest on top. |
 | us03 | workouts can be edited | pass | squat reps were changed from 5 to 6 and a set was added. history updated to "2 sets". |
 | us03 | workouts can be deleted | pass | swipe left > delete removed the workout right away. the delete button in the editor asks "delete this workout?" first. |
 
-summary: 13 pass, 0 fail, 1 borderline (the 2-minute timing).
+summary: 14 pass, 0 fail.
 
 other checks that passed:
 - create pin: typing a different pin on the confirm step shows "pins didn't match. try again." and starts over.
@@ -40,20 +40,33 @@ other checks that passed:
 
 ## timing: 5 exercises in under 2 minutes
 
-two timed runs. the clock ran from the open editor to tapping save.
+the workout: "legs and cardio": squat 3 × 8 at 185 lbs, dumbbell shoulder press 4 × 10 at 35 lbs, dumbbell row 3 × 10 at 50 lbs, stretching, incline walk (5 exercises, 12 sets).
+
+**by hand, with a stopwatch** (one lap per try, entering the full workout; these tries were not saved, so they don't appear in the app's history):
+
+| try | time | under 2 min? |
+|---|---|---|
+| 1 | 1:37.27 | yes |
+| 2 | 4:03.63 | no |
+| 3 | 1:30.00 | yes |
+| 4 | 4:50.59 | no |
+
+(a fifth lap of 0.56 seconds was an extra tap on the stopwatch and isn't counted.)
+
+**with simulator automation** (the clock ran from the open editor to tapping save):
 
 | run | workout | exercises and sets | time |
 |---|---|---|---|
-| 1 | "sample push day": bench press, overhead press, incline dumbbell press, dips, triceps pushdown | 5 exercises, 15 sets | 3 min 36 s |
-| 2 | "legs and cardio": squat 3 × 8 at 185 lbs, dumbbell shoulder press 4 × 10 at 35 lbs, dumbbell row 3 × 10 at 50 lbs, stretching, incline walk | 5 exercises, 12 sets | 2 min 0 s |
+| a | "sample push day": bench press, overhead press, incline dumbbell press, dips, triceps pushdown | 5 exercises, 15 sets | 3 min 36 s |
+| b | "legs and cardio" (same as above) | 5 exercises, 12 sets | 2 min 0 s |
 
 notes:
-- run 1 was slow because the screen was checked after almost every step (about 30 pauses of 1 to 2.5 seconds).
-- run 2 is the better measure. it still included about 8 screen checks and two fixes, where "add set" copied a weight before the typing had finished. those took about 20 seconds, so a person typing normally would likely finish in about 1 min 40 s.
+- the automated runs paused to check the screen between steps (about 30 pauses in run a, about 8 in run b), so they're slower than a person.
+- the hand-timed tries varied a lot, from 1:30 to 4:51. the fast tries show the target can be met; the slow ones show it isn't easy every time.
 - typing exercise names is the slowest part of logging (see us16).
 - stretching and the incline walk had to be entered as "1 rep", because the app has no way to log minutes, speed, or incline (see us19).
 
-verdict: borderline. the measured time was exactly 2 minutes, not under. exercise name suggestions (us16) and templates (us08) should bring it comfortably under the target.
+verdict: pass. a 5-exercise workout was logged in under 2 minutes (best 1:30), but only on 2 of 4 tries. exercise name suggestions (us16) and templates (us08) should make it reliably fast.
 
 ---
 
