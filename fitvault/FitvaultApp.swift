@@ -1,7 +1,7 @@
 // file: FitvaultApp.swift
 // what: the app's starting point. opens the encrypted database, shows the lock,
 //       and tells the lock when the app goes to the background.
-// story: us01, us02
+// story: us01, us02, us03
 
 import SwiftUI
 
@@ -15,10 +15,11 @@ struct FitvaultApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if let lock = model.lock {
+            if let lock = model.lock, let workouts = model.workouts {
                 RootView()
                     .environmentObject(model)
                     .environmentObject(lock)
+                    .environmentObject(workouts)
             } else {
                 // the database could not be opened, so we stop here
                 StartupErrorView(message: model.startupError ?? "unknown error")

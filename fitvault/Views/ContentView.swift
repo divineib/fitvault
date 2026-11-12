@@ -1,33 +1,17 @@
 // file: ContentView.swift
-// what: the main screen of the app.
-// story: us01, us02
+// what: the main screen once unlocked: a workouts tab and a settings tab.
+// story: us01, us02, us03
 
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var lock: LockManager
-
     var body: some View {
-        NavigationStack {
-            List {
-                Section("settings") {
-                    NavigationLink("security") {
-                        SecurityView()
-                    }
+        TabView {
+            WorkoutListView()
+                .tabItem { Label("workouts", systemImage: "dumbbell") }
 
-                    // face id on or off
-                    Toggle("unlock with \(Biometrics.name())", isOn: Binding(
-                        get: { lock.biometricsEnabled },
-                        set: { lock.setBiometrics(enabled: $0) }
-                    ))
-                    .disabled(!Biometrics.isAvailable() && !lock.biometricsEnabled)
-
-                    Button("lock now") {
-                        lock.lock()
-                    }
-                }
-            }
-            .navigationTitle("fitvault")
+            SettingsView()
+                .tabItem { Label("settings", systemImage: "gearshape") }
         }
     }
 }
@@ -37,4 +21,5 @@ struct ContentView: View {
     return ContentView()
         .environmentObject(model)
         .environmentObject(model.lock!)
+        .environmentObject(model.workouts!)
 }

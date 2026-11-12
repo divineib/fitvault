@@ -13,6 +13,7 @@ a private health tracker for iphone. log workouts, meals, sleep, and body weight
 
 - encrypted storage, with a security screen in settings that shows the checks passing
 - app lock: create a pin on first launch, unlock with the pin or face id, auto-lock after 2 minutes in the background
+- workout log: log exercises with sets, reps, and weight (lbs). "add set" copies the last set. history is newest first, and workouts can be edited or deleted.
 
 ## build and run
 
