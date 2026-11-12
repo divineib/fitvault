@@ -118,7 +118,7 @@ acceptance criteria:
 
 - priority: medium
 - points: 3
-- sprint: sprint 2
+- sprint: sprint 3
 
 as a lifter, i want to save workout templates for my weekly split so that i can start a session without rebuilding it.
 
