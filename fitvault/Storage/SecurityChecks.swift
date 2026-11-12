@@ -1,6 +1,6 @@
 // file: SecurityChecks.swift
-// what: runs the checks shown on the security screen (encryption, keychain).
-// story: us01
+// what: runs the checks shown on the security screen (encryption, keychain, pin hash).
+// story: us01, us02
 
 import Foundation
 
@@ -12,7 +12,7 @@ struct SecurityCheck: Identifiable {
 
 enum SecurityChecks {
     // runs every check against the real app database
-    static func run(database: Database) -> [SecurityCheck] {
+    static func run(database: Database, lock: LockManager) -> [SecurityCheck] {
         let path = database.path
         return [
             SecurityCheck(
@@ -30,6 +30,10 @@ enum SecurityChecks {
             SecurityCheck(
                 title: "key stays on this device and needs it unlocked",
                 passed: KeychainHelper.isDeviceOnly(account: DatabaseKey.defaultAccount)
+            ),
+            SecurityCheck(
+                title: "pin is stored as a salted hash (pbkdf2)",
+                passed: lock.pinIsStoredAsHash
             ),
         ]
     }

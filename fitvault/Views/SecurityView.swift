@@ -1,11 +1,12 @@
 // file: SecurityView.swift
 // what: shows the security checks passing, plus proof that data survives restarts.
-// story: us01
+// story: us01, us02
 
 import SwiftUI
 
 struct SecurityView: View {
     @EnvironmentObject var model: AppModel
+    @EnvironmentObject var lock: LockManager
     @State private var checks: [SecurityCheck] = []
 
     var body: some View {
@@ -24,6 +25,7 @@ struct SecurityView: View {
             Section("details") {
                 LabeledContent("encryption", value: "sqlcipher \(model.database?.cipherVersion() ?? "?")")
                 LabeledContent("key size", value: "256-bit, random")
+                LabeledContent("pin hashing", value: "pbkdf2-sha256, \(PinHasher.defaultIterations / 1000)k rounds")
                 LabeledContent("vault opened", value: "\(model.launchCount) times")
             }
 
@@ -36,7 +38,7 @@ struct SecurityView: View {
         .navigationTitle("security")
         .onAppear {
             if let database = model.database {
-                checks = SecurityChecks.run(database: database)
+                checks = SecurityChecks.run(database: database, lock: lock)
             }
         }
     }

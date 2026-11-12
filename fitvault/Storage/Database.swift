@@ -61,7 +61,7 @@ final class Database {
         }
 
         // give sqlcipher the raw 32-byte key as hex, like x'ab12...'
-        let hexKey = key.map { String(format: "%02x", $0) }.joined()
+        let hexKey = key.hexString
         try execute("PRAGMA key = \"x'\(hexKey)'\";")
 
         // reading the schema only works if the key is right
