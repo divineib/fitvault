@@ -215,3 +215,91 @@ acceptance criteria:
 - [ ] each reminder can be turned on or off and given a time
 - [ ] notifications never show health numbers on the lock screen
 - [ ] reminders still work after the phone restarts
+
+---
+
+## us15: hide my data in the app switcher
+
+- priority: high
+- points: 1
+- sprint: sprint 2
+
+as a user, i want fitvault to hide my logs when it's in the app switcher so that people near my phone can't see my data without unlocking.
+
+acceptance criteria:
+- [ ] the app switcher preview shows a plain cover, not workout or health data
+- [ ] the cover also shows while the face id prompt or the system share sheet is up
+- [ ] the app still opens to the lock screen or the last screen as before
+
+added after the sprint 1 self-test: the app switcher showed workout names and dates (finding 1).
+
+---
+
+## us16: exercise name suggestions
+
+- priority: medium
+- points: 1
+- sprint: sprint 3
+
+as a lifter, i want the app to suggest exercise names i've used before so that i don't have to type them every workout.
+
+acceptance criteria:
+- [ ] typing the first letters of an exercise shows matching names from past workouts
+- [ ] tapping a suggestion fills in the name
+- [ ] suggestions come only from data on the phone
+
+added after the sprint 1 self-test: typing exercise names was the slowest part of logging a workout (finding 2), and it puts the 2-minute target for us03 at risk.
+
+---
+
+## us17: safer workout delete
+
+- priority: medium
+- points: 1
+- sprint: sprint 2
+
+as a user, i want a chance to undo or cancel before a workout is deleted so that one slip doesn't lose my log.
+
+acceptance criteria:
+- [ ] swipe-to-delete asks to confirm or offers an undo for a few seconds
+- [ ] the delete confirm popup has a visible cancel button
+- [ ] a deleted workout's exercises and sets are still removed from the database
+
+added after the sprint 1 self-test: swipe-delete had no confirm or undo, and the editor's delete popup had no visible cancel (findings 3 and 4).
+
+---
+
+## us18: sprint 1 polish fixes
+
+- priority: low
+- points: 3
+- sprint: sprint 3
+
+as a user, i want the small rough edges from sprint 1 fixed so that the app feels finished and easy to use.
+
+acceptance criteria:
+- [ ] tapping a filled-in number in the workout editor selects the whole number
+- [ ] the workout date can't be set in the future
+- [ ] unlocking returns to the tab that was open before
+- [ ] the security screen says "1 time" instead of "1 times"
+- [ ] the security screen's bottom note isn't hidden by the tab bar
+- [ ] the app has an icon
+
+added after the sprint 1 self-test (findings 5 to 10).
+
+---
+
+## us19: log cardio and stretching
+
+- priority: medium
+- points: 3
+- sprint: sprint 3
+
+as a user, i want to log cardio and stretching by time, not just sets and reps, so that my whole workout fits in one log.
+
+acceptance criteria:
+- [ ] an exercise can be logged by time (minutes) instead of reps and weight
+- [ ] cardio like an incline walk can also save speed and incline
+- [ ] timed exercises show in history next to lifting exercises in the same workout
+
+added after the sprint 1 self-test: a real routine with stretching and an incline walk could only be logged as "1 rep" (finding 11).
