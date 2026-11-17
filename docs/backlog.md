@@ -284,8 +284,10 @@ acceptance criteria:
 - [ ] the security screen says "1 time" instead of "1 times"
 - [ ] the security screen's bottom note isn't hidden by the tab bar
 - [ ] the app has an icon
+- [ ] "use face id" is hidden, or explains why, when face id isn't set up on the phone
+- [ ] the lock screen checks for face id once, not every second while the countdown runs
 
-added after the sprint 1 self-test (findings 5 to 10).
+added after the sprint 1 self-test (findings 5 to 10). the last two items were found while testing us15 in sprint 2.
 
 ---
 
