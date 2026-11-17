@@ -1,6 +1,7 @@
 // file: WorkoutListView.swift
-// what: workout history, newest first. tap a workout to edit it, swipe to delete, + to log a new one.
-// story: us03
+// what: workout history, newest first. tap a workout to edit it, swipe to delete (after a confirm),
+//       + to log a new one.
+// story: us03, us17
 
 import SwiftUI
 
@@ -9,6 +10,14 @@ struct WorkoutListView: View {
 
     // the form shown in the editor sheet (nil = sheet closed)
     @State private var editorForm: EditorSheet?
+
+    // the workout waiting for a yes or no before it's deleted (nil = no question showing)
+    @State private var pendingDelete: Workout?
+
+    // turns "is a workout waiting?" into the yes/no the alert needs
+    private var showingDeleteAlert: Binding<Bool> {
+        Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } })
+    }
 
     var body: some View {
         NavigationStack {
@@ -21,11 +30,29 @@ struct WorkoutListView: View {
                     }
                     .foregroundStyle(.primary)
                     .swipeActions {
-                        Button("delete", role: .destructive) {
-                            try? store.delete(workout)
+                        // us17: ask first instead of deleting right away.
+                        // no destructive role here, so the row doesn't vanish before the answer.
+                        Button(DeleteConfirmation.deleteButton) {
+                            pendingDelete = workout
                         }
+                        .tint(.red)
                     }
                 }
+            }
+            .alert(
+                pendingDelete.map(DeleteConfirmation.title) ?? "",
+                isPresented: showingDeleteAlert,
+                presenting: pendingDelete
+            ) { workout in
+                Button(DeleteConfirmation.deleteButton, role: .destructive) {
+                    try? store.delete(workout)
+                    pendingDelete = nil
+                }
+                Button(DeleteConfirmation.cancelButton, role: .cancel) {
+                    pendingDelete = nil
+                }
+            } message: { workout in
+                Text(DeleteConfirmation.message(for: workout))
             }
             .overlay {
                 if store.workouts.isEmpty {
