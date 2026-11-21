@@ -1,6 +1,6 @@
 // file: AppModel.swift
 // what: holds the open database, the app lock, and app-wide info that screens need.
-// story: us01, us02, us03
+// story: us01, us02, us03, us06
 
 import Foundation
 
@@ -13,6 +13,9 @@ final class AppModel: ObservableObject {
 
     // saved workouts (nil only if the database failed to open)
     let workouts: WorkoutStore?
+
+    // daily goals (nil only if the database failed to open)
+    let goals: GoalsStore?
 
     // shown on screen if the database could not be opened
     let startupError: String?
@@ -27,6 +30,7 @@ final class AppModel: ObservableObject {
             database = db
             lock = LockManager(settings: settings)
             workouts = WorkoutStore(database: db)
+            goals = GoalsStore(settings: settings)
             startupError = nil
 
             // count this launch and save it in the encrypted database
@@ -37,6 +41,7 @@ final class AppModel: ObservableObject {
             database = nil
             lock = nil
             workouts = nil
+            goals = nil
             startupError = "could not open the encrypted database: \(error)"
         }
     }

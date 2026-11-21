@@ -2,7 +2,7 @@
 // what: the app's starting point. opens the encrypted database, shows the lock,
 //       tells the lock when the app goes to the background, and hides the app
 //       behind a cover whenever it isn't active.
-// story: us01, us02, us03, us15
+// story: us01, us02, us03, us06, us15
 
 import SwiftUI
 
@@ -17,11 +17,12 @@ struct FitvaultApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
-                if let lock = model.lock, let workouts = model.workouts {
+                if let lock = model.lock, let workouts = model.workouts, let goals = model.goals {
                     RootView()
                         .environmentObject(model)
                         .environmentObject(lock)
                         .environmentObject(workouts)
+                        .environmentObject(goals)
                 } else {
                     // the database could not be opened, so we stop here
                     StartupErrorView(message: model.startupError ?? "unknown error")

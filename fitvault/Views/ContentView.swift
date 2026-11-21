@@ -22,4 +22,5 @@ struct ContentView: View {
         .environmentObject(model)
         .environmentObject(model.lock!)
         .environmentObject(model.workouts!)
+        .environmentObject(model.goals!)
 }
