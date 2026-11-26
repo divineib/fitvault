@@ -1,6 +1,6 @@
 // file: AppDatabase.swift
 // what: knows where the app's database file lives and creates its tables.
-// story: us01, us03
+// story: us01, us03, us04
 
 import Foundation
 
@@ -66,6 +66,19 @@ enum AppDatabase {
                 position INTEGER NOT NULL,
                 reps INTEGER NOT NULL,
                 weight_lbs REAL NOT NULL
+            );
+            """)
+
+        // us04: meals. carbs and fat can be empty (null).
+        try db.execute("""
+            CREATE TABLE IF NOT EXISTS meals (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                date REAL NOT NULL,
+                calories INTEGER NOT NULL,
+                protein_g REAL NOT NULL,
+                carbs_g REAL,
+                fat_g REAL
             );
             """)
     }

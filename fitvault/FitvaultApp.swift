@@ -1,7 +1,8 @@
 // file: FitvaultApp.swift
 // what: the app's starting point. opens the encrypted database, shows the lock,
-//       and tells the lock when the app goes to the background.
-// story: us01, us02, us03
+//       tells the lock when the app goes to the background, and hides the app
+//       behind a cover whenever it isn't active.
+// story: us01, us02, us03, us04, us06, us15
 
 import SwiftUI
 
@@ -15,14 +16,18 @@ struct FitvaultApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if let lock = model.lock, let workouts = model.workouts {
-                RootView()
-                    .environmentObject(model)
-                    .environmentObject(lock)
-                    .environmentObject(workouts)
-            } else {
-                // the database could not be opened, so we stop here
-                StartupErrorView(message: model.startupError ?? "unknown error")
+            ZStack {
+                if let lock = model.lock, let workouts = model.workouts, let goals = model.goals, let meals = model.meals {
+                    RootView()
+                        .environmentObject(model)
+                        .environmentObject(lock)
+                        .environmentObject(workouts)
+                        .environmentObject(goals)
+                        .environmentObject(meals)
+                } else {
+                    // the database could not be opened, so we stop here
+                    StartupErrorView(message: model.startupError ?? "unknown error")
+                }
             }
         }
         .onChange(of: scenePhase) { _, phase in
@@ -31,6 +36,8 @@ struct FitvaultApp: App {
             case .active: model.lock?.appBecameActive()
             default: break
             }
+            // us15: cover everything, including sheets and alerts, unless the app is active
+            if PrivacyRule.shouldCover(phase) { PrivacyWindow.show() } else { PrivacyWindow.hide() }
         }
     }
 }

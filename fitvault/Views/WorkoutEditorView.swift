@@ -1,7 +1,7 @@
 // file: WorkoutEditorView.swift
 // what: the screen for logging a new workout or editing a saved one.
 //       "add set" copies the last set so a full workout can be logged quickly.
-// story: us03
+// story: us03, us17
 
 import SwiftUI
 
@@ -65,9 +65,17 @@ struct WorkoutEditorView: View {
             } message: {
                 Text(problem ?? "")
             }
-            .confirmationDialog("delete this workout?", isPresented: $confirmingDelete, titleVisibility: .visible) {
-                Button("delete", role: .destructive, action: deleteWorkout)
-                Button("cancel", role: .cancel) {}
+            // us17: a centered alert, so the cancel button is always visible
+            .alert(
+                savedWorkout.map(DeleteConfirmation.title) ?? "delete this workout?",
+                isPresented: $confirmingDelete
+            ) {
+                Button(DeleteConfirmation.deleteButton, role: .destructive, action: deleteWorkout)
+                Button(DeleteConfirmation.cancelButton, role: .cancel) {}
+            } message: {
+                if let savedWorkout {
+                    Text(DeleteConfirmation.message(for: savedWorkout))
+                }
             }
         }
     }
@@ -138,10 +146,14 @@ struct WorkoutEditorView: View {
         }
     }
 
+    // the saved version of the workout being edited (nil for a new workout)
+    private var savedWorkout: Workout? {
+        guard let id = form.workoutId else { return nil }
+        return store.workouts.first(where: { $0.id == id })
+    }
+
     private func deleteWorkout() {
-        guard let id = form.workoutId,
-              let saved = store.workouts.first(where: { $0.id == id })
-        else { return }
+        guard let saved = savedWorkout else { return }
         try? store.delete(saved)
         dismiss()
     }

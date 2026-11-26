@@ -1,15 +1,24 @@
 // file: SettingsView.swift
-// what: the settings tab (security screen, face id switch, lock now).
-// story: us01, us02
+// what: the settings tab (daily goals, security screen, face id switch, lock now).
+// story: us01, us02, us06
 
 import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var lock: LockManager
+    @EnvironmentObject var goals: GoalsStore
 
     var body: some View {
         NavigationStack {
             List {
+                Section("goals") {
+                    NavigationLink {
+                        GoalsView()
+                    } label: {
+                        LabeledContent("daily goals", value: GoalsSummary.text(for: goals.goals))
+                    }
+                }
+
                 Section("privacy") {
                     NavigationLink("security") {
                         SecurityView()
