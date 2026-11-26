@@ -28,12 +28,6 @@ struct FitvaultApp: App {
                     // the database could not be opened, so we stop here
                     StartupErrorView(message: model.startupError ?? "unknown error")
                 }
-
-                // us15: hide everything when the app isn't active,
-                // so the app switcher preview shows this cover instead of data
-                if PrivacyRule.shouldCover(scenePhase) {
-                    PrivacyCoverView()
-                }
             }
         }
         .onChange(of: scenePhase) { _, phase in
@@ -42,6 +36,8 @@ struct FitvaultApp: App {
             case .active: model.lock?.appBecameActive()
             default: break
             }
+            // us15: cover everything, including sheets and alerts, unless the app is active
+            if PrivacyRule.shouldCover(phase) { PrivacyWindow.show() } else { PrivacyWindow.hide() }
         }
     }
 }
